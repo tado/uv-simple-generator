@@ -5,6 +5,20 @@ A VS Code extension that creates and runs simple Python projects managed with
 [processing-py Project Generator](https://github.com/tado/processing-py.vscode), but generates a
 plain, dependency-free project.
 
+## Installation
+
+Install from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=tadokoro.uv-simple-generator):
+
+- In VS Code, open the Extensions view (`Cmd+Shift+X` / `Ctrl+Shift+X`), search for
+  **uv Simple Project Generator**, and click **Install**, or
+- run `code --install-extension tadokoro.uv-simple-generator`.
+
+A `.vsix` file is also attached to each [GitHub release](https://github.com/tado/uv-simple-generator/releases);
+install it with **Extensions: Install from VSIX...** in the Command Palette.
+
+Then install [uv](https://docs.astral.sh/uv/getting-started/installation/) (see [Requirements](#requirements))
+and run **uv: Create a new uv Project** from the Command Palette.
+
 ## Features
 
 - **uv: Create a new uv Project** (Command Palette)
