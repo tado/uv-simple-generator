@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Enlarged the box in the extension icon.
+- README: added Marketplace installation instructions.
+
 ## 0.2.0
 
 - The wizard now asks for a template: **Blank** (default, the previous project) or
