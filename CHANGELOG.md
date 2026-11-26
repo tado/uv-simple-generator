@@ -5,6 +5,7 @@
 - The wizard now asks for a template: **Blank** (default, the previous project) or
   **Data Science** (NumPy, pandas, Matplotlib, Seaborn, scikit-learn and a scatter-plot `main.py`).
   The wizard is now project name → template → parent folder.
+- Added an extension icon (a package box with "uv" printed on its side).
 
 ## 0.1.0
 
