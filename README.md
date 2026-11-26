@@ -32,6 +32,12 @@ and run **uv: Create a new uv Project** from the Command Palette.
 - **uv: Run with uv** (▶ in the editor title bar, `Cmd+R` / `Ctrl+R`):
   runs `uv run <file>` in a dedicated terminal. Running again restarts the program.
 - **uv: Stop**: closes the run terminal.
+- **uv: Add Package (uv add)** (Command Palette, or right-click `pyproject.toml` in the Explorer):
+  enter one or more package names separated by spaces (version specifiers such as
+  `requests>=2.31` and extras such as `requests[socks]` are allowed), and the extension runs
+  `uv add` in the project. The project is the one containing the active file; if that cannot be
+  determined, the `pyproject.toml` in the workspace is used (you are asked to choose if there are several).
+  Output is written to the **uv Simple Project Generator** output channel.
 
 ## Templates
 
@@ -89,7 +95,7 @@ my-project/
     └── extensions.json   # recommends ms-python.python
 ```
 
-Add dependencies with `uv add <package>`.
+Add dependencies with **uv: Add Package (uv add)** or `uv add <package>` in a terminal.
 
 ## Settings
 

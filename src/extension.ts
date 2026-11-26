@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 import { MAIN_FILE, TEMPLATES, generateProject, validateProjectName } from './generator';
 import { UvRunner, findProjectRoot } from './runner';
-import { UV_INSTALL_URL, findUv, uvSync } from './uv';
+import { UV_INSTALL_URL, findUv, parsePackageInput, uvAdd, uvSync, validatePackageInput } from './uv';
 
 const CONTEXT_IN_PROJECT = 'uvSimple.inProject';
 const PENDING_OPEN_KEY = 'uvSimple.pendingOpenFile';
@@ -31,6 +31,7 @@ export function activate(context: vscode.ExtensionContext): void {
     ),
     vscode.commands.registerCommand('uvSimple.runFile', (uri?: vscode.Uri) => runFile(runner, uri)),
     vscode.commands.registerCommand('uvSimple.stop', () => runner.stop()),
+    vscode.commands.registerCommand('uvSimple.addPackage', (uri?: vscode.Uri) => addPackage(uri)),
   );
 
   void updateProjectContext();
@@ -282,6 +283,108 @@ async function runFile(runner: UvRunner, uri?: vscode.Uri): Promise<void> {
     );
   }
   runner.run(uv.command, target.fsPath);
+}
+
+// ---------------------------------------------------------------------------
+// Adding packages (uv add)
+// ---------------------------------------------------------------------------
+
+async function addPackage(uri?: vscode.Uri): Promise<void> {
+  const projectDir = await pickProjectDir(uri);
+  if (!projectDir) {
+    return;
+  }
+
+  const input = await vscode.window.showInputBox({
+    title: `Add Package (uv add) — ${path.basename(projectDir)}`,
+    prompt: 'Package names separated by spaces (version specifiers are allowed)',
+    placeHolder: 'numpy requests>=2.31',
+    validateInput: validatePackageInput,
+  });
+  if (input === undefined) {
+    return;
+  }
+  const packages = parsePackageInput(input);
+
+  const uv = await findUv(config().uvPath);
+  if (!uv) {
+    const choice = await vscode.window.showErrorMessage(
+      'uv was not found. Packages are added with "uv add".',
+      'How to Install uv',
+    );
+    if (choice) {
+      void vscode.env.openExternal(vscode.Uri.parse(UV_INSTALL_URL));
+    }
+    return;
+  }
+
+  // Save pyproject.toml first so uv does not overwrite unsaved edits (and vice versa).
+  const pyproject = path.join(projectDir, 'pyproject.toml');
+  const doc = vscode.workspace.textDocuments.find((d) => d.uri.fsPath === pyproject);
+  if (doc?.isDirty) {
+    await doc.save();
+  }
+
+  const label = packages.join(' ');
+  output.appendLine(`> ${uv.command} add ${label}   (${uv.version}, cwd: ${projectDir})`);
+  const code = await vscode.window.withProgress(
+    { location: vscode.ProgressLocation.Notification, title: `uv add ${label}`, cancellable: true },
+    (progress, token) => {
+      const handle = uvAdd(uv.command, packages, projectDir, (text) => {
+        output.append(text);
+        const last = text.trim().split(/\r?\n/).pop();
+        if (last) {
+          progress.report({ message: last.slice(0, 80) });
+        }
+      });
+      token.onCancellationRequested(() => handle.cancel());
+      return handle.done;
+    },
+  );
+
+  if (code !== 0) {
+    const choice = await vscode.window.showErrorMessage(
+      `uv add failed (exit code ${code}).`,
+      'Show Output',
+    );
+    if (choice) {
+      output.show();
+    }
+    return;
+  }
+  void vscode.window.showInformationMessage(`Added ${label} to ${path.basename(projectDir)}.`);
+}
+
+/**
+ * Chooses the uv project to operate on: the one containing `uri` or the active
+ * editor's file, otherwise a pyproject.toml in the workspace (asking if several).
+ */
+async function pickProjectDir(uri?: vscode.Uri): Promise<string | undefined> {
+  const start = uri?.scheme === 'file' ? uri : vscode.window.activeTextEditor?.document.uri;
+  if (start?.scheme === 'file') {
+    const isDir = fs.existsSync(start.fsPath) && fs.statSync(start.fsPath).isDirectory();
+    const root = findProjectRoot(isDir ? start.fsPath : path.dirname(start.fsPath));
+    if (root) {
+      return root;
+    }
+  }
+
+  const found = await vscode.workspace.findFiles('**/pyproject.toml', '**/{.venv,node_modules,.git}/**', 50);
+  if (found.length === 0) {
+    void vscode.window.showErrorMessage('No pyproject.toml was found. Create a uv project first.');
+    return undefined;
+  }
+  if (found.length === 1) {
+    return path.dirname(found[0].fsPath);
+  }
+  const picked = await vscode.window.showQuickPick(
+    found
+      .map((f) => path.dirname(f.fsPath))
+      .sort()
+      .map((dir) => ({ label: path.basename(dir), description: vscode.workspace.asRelativePath(dir), dir })),
+    { title: 'Add Package (uv add)', placeHolder: 'Select a project' },
+  );
+  return picked?.dir;
 }
 
 // ---------------------------------------------------------------------------

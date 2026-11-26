@@ -2,7 +2,7 @@
   "name": "uv-simple-generator",
   "displayName": "uv Simple Project Generator",
   "description": "Create and run simple Python projects managed with uv.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "publisher": "tadokoro",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -51,6 +51,12 @@
         "icon": "$(play)"
       },
       {
+        "command": "uvSimple.addPackage",
+        "title": "Add Package (uv add)",
+        "category": "uv",
+        "icon": "$(add)"
+      },
+      {
         "command": "uvSimple.stop",
         "title": "Stop",
         "category": "uv",
@@ -66,12 +72,21 @@
         {
           "command": "uvSimple.runFile",
           "when": "editorLangId == python"
+        },
+        {
+          "command": "uvSimple.addPackage",
+          "when": "uvSimple.inProject"
         }
       ],
       "explorer/context": [
         {
           "command": "uvSimple.createProjectHere",
           "when": "explorerResourceIsFolder",
+          "group": "2_workspace"
+        },
+        {
+          "command": "uvSimple.addPackage",
+          "when": "resourceFilename == pyproject.toml",
           "group": "2_workspace"
         }
       ],

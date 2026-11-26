@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+- Added **uv: Add Package (uv add)**: adds dependencies to the current project with `uv add`
+  (Command Palette, or right-click `pyproject.toml` in the Explorer).
+
 ## 0.2.1
 
 - Enlarged the box in the extension icon.
