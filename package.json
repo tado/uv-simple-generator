@@ -1,0 +1,136 @@
+{
+  "name": "uv-simple-generator",
+  "displayName": "uv Simple Project Generator",
+  "description": "Create and run simple Python projects managed with uv.",
+  "version": "0.2.0",
+  "publisher": "tadokoro",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tado/uv-simple-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tado/uv-simple-generator/issues"
+  },
+  "homepage": "https://github.com/tado/uv-simple-generator#readme",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "python",
+    "uv",
+    "project",
+    "generator",
+    "template"
+  ],
+  "activationEvents": [
+    "workspaceContains:pyproject.toml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "uvSimple.createProject",
+        "title": "Create a new uv Project",
+        "category": "uv"
+      },
+      {
+        "command": "uvSimple.createProjectHere",
+        "title": "Create uv Project Here",
+        "category": "uv"
+      },
+      {
+        "command": "uvSimple.runFile",
+        "title": "Run with uv",
+        "category": "uv",
+        "icon": "$(play)"
+      },
+      {
+        "command": "uvSimple.stop",
+        "title": "Stop",
+        "category": "uv",
+        "icon": "$(debug-stop)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "uvSimple.createProjectHere",
+          "when": "false"
+        },
+        {
+          "command": "uvSimple.runFile",
+          "when": "editorLangId == python"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "uvSimple.createProjectHere",
+          "when": "explorerResourceIsFolder",
+          "group": "2_workspace"
+        }
+      ],
+      "editor/title/run": [
+        {
+          "command": "uvSimple.runFile",
+          "when": "resourceLangId == python && uvSimple.inProject",
+          "group": "navigation@0"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "uvSimple.runFile",
+        "key": "ctrl+r",
+        "mac": "cmd+r",
+        "when": "editorLangId == python && uvSimple.inProject"
+      }
+    ],
+    "configuration": {
+      "title": "uv Simple Project Generator",
+      "properties": {
+        "uvSimple.uvPath": {
+          "type": "string",
+          "default": "uv",
+          "description": "Path to the uv executable. Leave as \"uv\" to use the one on your PATH."
+        },
+        "uvSimple.pythonVersion": {
+          "type": "string",
+          "default": "3.12",
+          "description": "Python version written to .python-version for new projects (also sets requires-python)."
+        },
+        "uvSimple.syncAfterCreate": {
+          "type": "string",
+          "enum": [
+            "ask",
+            "always",
+            "never"
+          ],
+          "enumDescriptions": [
+            "Ask whether to run `uv sync` after creating a project.",
+            "Always run `uv sync` after creating a project.",
+            "Never run `uv sync` automatically."
+          ],
+          "default": "ask",
+          "description": "Whether to create the virtual environment (uv sync) right after a project is created."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "npm run compile && node --test out/test/",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^5.4.0"
+  }
+}

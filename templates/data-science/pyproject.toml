@@ -1,0 +1,13 @@
+[project]
+name = "{{PACKAGE_NAME}}"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">={{REQUIRES_PYTHON}}"
+dependencies = [
+    "numpy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "scikit-learn",
+]

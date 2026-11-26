@@ -1,0 +1,13 @@
+# Changelog
+
+## 0.2.0
+
+- The wizard now asks for a template: **Blank** (default, the previous project) or
+  **Data Science** (NumPy, pandas, Matplotlib, Seaborn, scikit-learn and a scatter-plot `main.py`).
+  The wizard is now project name → template → parent folder.
+
+## 0.1.0
+
+- Initial version, based on processing-py Project Generator: project wizard
+  (project name → parent folder), Explorer "Create Here", optional `uv sync`,
+  Run / Stop via `uv run`. New projects open with `main.py`.
