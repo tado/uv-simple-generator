@@ -2,7 +2,7 @@
   "name": "uv-simple-generator",
   "displayName": "uv Simple Project Generator",
   "description": "Create and run simple Python projects managed with uv.",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "tadokoro",
   "license": "MIT",
   "icon": "images/icon.png",

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- README: added a Requirements section explaining that uv is needed, with the official
+  install commands and a link to the uv installation page.
+
 ## 0.3.0
 
 - Added **uv: Add Package (uv add)**: adds dependencies to the current project with `uv add`
