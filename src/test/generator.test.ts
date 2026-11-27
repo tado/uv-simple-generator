@@ -50,7 +50,7 @@ test('generateProject writes a complete project', async () => {
     const dir = await generateProject(templatesRoot, {
       projectName: 'My Project',
       parentDir: parent,
-      pythonVersion: '3.12',
+      pythonVersion: '3.14',
       platform: 'darwin',
     });
     assert.equal(dir, path.join(parent, 'My Project'));
@@ -77,9 +77,9 @@ test('generateProject writes a complete project', async () => {
 
     const pyproject = await fs.readFile(path.join(dir, 'pyproject.toml'), 'utf8');
     assert.match(pyproject, /name = "my-project"/);
-    assert.match(pyproject, /requires-python = ">=3.12"/);
+    assert.match(pyproject, /requires-python = ">=3.14"/);
     assert.match(pyproject, /dependencies = \[\]/);
-    assert.equal((await fs.readFile(path.join(dir, '.python-version'), 'utf8')).trim(), '3.12');
+    assert.equal((await fs.readFile(path.join(dir, '.python-version'), 'utf8')).trim(), '3.14');
 
     assert.equal(await fs.readFile(path.join(dir, 'main.py'), 'utf8'), MAIN_PY);
 
@@ -98,7 +98,7 @@ test('Data Science template adds the libraries and a scatter plot', async () => 
       projectName: 'analysis',
       template: 'data-science',
       parentDir: parent,
-      pythonVersion: '3.12',
+      pythonVersion: '3.14',
       platform: 'darwin',
     });
     const pyproject = await fs.readFile(path.join(dir, 'pyproject.toml'), 'utf8');
@@ -134,7 +134,7 @@ test('every template folder exists, and unknown templates are rejected', async (
         projectName: 'x',
         template: 'nope',
         parentDir: parent,
-        pythonVersion: '3.12',
+        pythonVersion: '3.14',
         platform: 'darwin',
       }),
       /Unknown template/,
@@ -152,7 +152,7 @@ test('generateProject refuses to merge into an existing folder', async () => {
       generateProject(templatesRoot, {
         projectName: 'taken',
         parentDir: parent,
-        pythonVersion: '3.12',
+        pythonVersion: '3.14',
         platform: 'linux',
       }),
       /EEXIST/,

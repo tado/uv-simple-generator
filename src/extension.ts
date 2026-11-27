@@ -14,8 +14,8 @@ function config() {
   const c = vscode.workspace.getConfiguration('uvSimple');
   return {
     uvPath: c.get<string>('uvPath', 'uv'),
-    pythonVersion: c.get<string>('pythonVersion', '3.12'),
-    syncAfterCreate: c.get<'ask' | 'always' | 'never'>('syncAfterCreate', 'ask'),
+    pythonVersion: c.get<string>('pythonVersion', '3.14'),
+    syncAfterCreate: c.get<'always' | 'ask' | 'never'>('syncAfterCreate', 'always'),
   };
 }
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0
+
+- The default `uvSimple.pythonVersion` for new projects is now `3.14` (was `3.12`).
+  Existing projects keep their own `.python-version`.
+- `uv sync` now runs automatically after a project is created: the default of
+  `uvSimple.syncAfterCreate` is `always` (was `ask`). Set it to `never` to run `uv sync`
+  yourself, or `ask` for the previous behavior.
+
 ## 0.3.1
 
 - README: added a Requirements section explaining that uv is needed, with the official

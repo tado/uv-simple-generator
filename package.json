@@ -2,7 +2,7 @@
   "name": "uv-simple-generator",
   "displayName": "uv Simple Project Generator",
   "description": "Create and run simple Python projects managed with uv.",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "publisher": "tadokoro",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -116,23 +116,23 @@
         },
         "uvSimple.pythonVersion": {
           "type": "string",
-          "default": "3.12",
+          "default": "3.14",
           "description": "Python version written to .python-version for new projects (also sets requires-python)."
         },
         "uvSimple.syncAfterCreate": {
           "type": "string",
           "enum": [
-            "ask",
             "always",
+            "ask",
             "never"
           ],
           "enumDescriptions": [
+            "Run `uv sync` automatically after creating a project.",
             "Ask whether to run `uv sync` after creating a project.",
-            "Always run `uv sync` after creating a project.",
-            "Never run `uv sync` automatically."
+            "Do not run `uv sync`; run it yourself in the project folder (manual)."
           ],
-          "default": "ask",
-          "description": "Whether to create the virtual environment (uv sync) right after a project is created."
+          "default": "always",
+          "markdownDescription": "Whether to create the virtual environment and install dependencies (`uv sync`) right after a project is created. Set to `never` to run `uv sync` yourself."
         }
       }
     }

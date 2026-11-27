@@ -45,7 +45,8 @@ Then install uv (see [Requirements](#requirements)) and run **uv: Create a new u
   1. Project name
   2. Template: **Blank** (default) or **Data Science**
   3. Parent folder
-  4. Optionally runs `uv sync` to install Python and dependencies into `.venv`
+  4. Runs `uv sync` to install Python and dependencies into `.venv`
+     (automatic by default; see `uvSimple.syncAfterCreate`)
   5. Opens the project in this window or a new one and shows `main.py`
 - **Create uv Project Here**: right-click a folder in the Explorer
   (asks only for the project name and template).
@@ -106,7 +107,7 @@ if __name__ == "__main__":
 my-project/
 ├── main.py               # entry point (from the chosen template)
 ├── pyproject.toml        # dependencies (from the chosen template)
-├── .python-version       # 3.12 (configurable)
+├── .python-version       # 3.14 (configurable)
 ├── README.md
 ├── .gitignore
 └── .vscode/
@@ -122,8 +123,8 @@ Add dependencies with **uv: Add Package (uv add)** or `uv add <package>` in a te
 | Setting | Default | Description |
 | --- | --- | --- |
 | `uvSimple.uvPath` | `uv` | Path to uv. If set to `uv`, `~/.local/bin`, `~/.cargo/bin` and Homebrew locations are also tried. |
-| `uvSimple.pythonVersion` | `3.12` | Written to `.python-version`; also sets `requires-python`. |
-| `uvSimple.syncAfterCreate` | `ask` | `ask` / `always` / `never` run `uv sync` after creation. |
+| `uvSimple.pythonVersion` | `3.14` | Written to `.python-version`; also sets `requires-python`. |
+| `uvSimple.syncAfterCreate` | `always` | `always` runs `uv sync` after creation, `ask` asks first, `never` leaves it to you (run `uv sync` in the project folder). |
 
 ## Development
 
