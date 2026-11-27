@@ -5,6 +5,27 @@ A VS Code extension that creates and runs simple Python projects managed with
 [processing-py Project Generator](https://github.com/tado/processing-py.vscode), but generates a
 plain, dependency-free project.
 
+## Requirements
+
+This extension needs [uv](https://docs.astral.sh/uv/), which installs Python and the project's
+packages. Install it with the official script:
+
+- macOS / Linux:
+
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+
+- Windows (PowerShell):
+
+  ```powershell
+  powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+  ```
+
+For other methods (Homebrew, WinGet, pip, ...), see the
+[uv installation page](https://docs.astral.sh/uv/getting-started/installation/).
+Restart VS Code after installing uv so it can be found.
+
 ## Installation
 
 Install from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=tadokoro.uv-simple-generator):
@@ -16,8 +37,7 @@ Install from the [Visual Studio Marketplace](https://marketplace.visualstudio.co
 A `.vsix` file is also attached to each [GitHub release](https://github.com/tado/uv-simple-generator/releases);
 install it with **Extensions: Install from VSIX...** in the Command Palette.
 
-Then install [uv](https://docs.astral.sh/uv/getting-started/installation/) (see [Requirements](#requirements))
-and run **uv: Create a new uv Project** from the Command Palette.
+Then install uv (see [Requirements](#requirements)) and run **uv: Create a new uv Project** from the Command Palette.
 
 ## Features
 
@@ -104,10 +124,6 @@ Add dependencies with **uv: Add Package (uv add)** or `uv add <package>` in a te
 | `uvSimple.uvPath` | `uv` | Path to uv. If set to `uv`, `~/.local/bin`, `~/.cargo/bin` and Homebrew locations are also tried. |
 | `uvSimple.pythonVersion` | `3.12` | Written to `.python-version`; also sets `requires-python`. |
 | `uvSimple.syncAfterCreate` | `ask` | `ask` / `always` / `never` run `uv sync` after creation. |
-
-## Requirements
-
-- [uv](https://docs.astral.sh/uv/getting-started/installation/)
 
 ## Development
 
